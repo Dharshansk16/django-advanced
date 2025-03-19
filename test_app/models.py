@@ -9,7 +9,7 @@ class Restaurant(models.Model):
     class TypeChoices(models.TextChoices):
         INDIAN=('IN', 'Indian')
         CHINESE=('CH', 'Chinese')
-        ITAILIAN=('IT', 'Italian')
+        ITALIAN=('IT', 'Italian')
         GREEK=('GK', 'Greek')
         MEXICAN=('MX', 'Mexican')
         FASTFOOD=("FF", "Fast Food")
@@ -20,24 +20,31 @@ class Restaurant(models.Model):
     date_opened=models.DateField()
     latitude=models.FloatField()
     longitude=models.FloatField()
-    restuarant_type=models.CharField(max_length=2, choices=TypeChoices.choices)
+    restaurant_type=models.CharField(max_length=2, choices=TypeChoices.choices)
 
     def __str__(self):
         return self.name
 
 
 class Rating(models.Model):
+    class RatingChoices(models.IntegerChoices):
+        ONE = 1, "★☆☆☆☆"
+        TWO = 2, "★★☆☆☆"
+        THREE = 3, "★★★☆☆"
+        FOUR = 4, "★★★★☆"
+        FIVE = 5, "★★★★★"
+
     user=models.ForeignKey(User, on_delete=models.CASCADE)
-    restaurant=models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    rating=models.PositiveSmallIntegerField()
+    restaurant=models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name="ratings")
+    rating=models.PositiveSmallIntegerField(choices=RatingChoices.choices, default=RatingChoices.THREE)
 
     def __str__(self):
         return  f"Rating : {self.rating}"
 
 class Sale(models.Model):
-    restuarant=models.ForeignKey(Restaurant, on_delete=models.SET_NULL, null=True)
+    restaurant=models.ForeignKey(Restaurant, on_delete=models.SET_NULL, null=True, related_name="sales")
     income=models.DecimalField(max_digits=8,decimal_places=2)
     datetime=models.DateTimeField()
-    
+
 
 
