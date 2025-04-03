@@ -117,15 +117,31 @@ def run():
     # pprint(connection.queries)
 
     """get_or_create Continue"""
-    restaurant=Restaurant.objects.first()
-    user= User.objects.first()
-    rating, created =Rating.objects.get_or_create(
-        user=user, 
-        restaurant=restaurant,
-        rating=1
-        )
-    if (created==True):
-        print("Data has been added: ",rating.rating)
-    else:
-        print("Data Already Exists: ",rating.rating)
+    # restaurant=Restaurant.objects.first()
+    # user= User.objects.first()
+    # rating, created =Rating.objects.get_or_create(
+    #     user=user, 
+    #     restaurant=restaurant,
+    #     rating=1
+    #     )
+    # if (created==True):
+    #     print("Data has been added: ",rating.rating)
+    # else:
+    #     print("Data Already Exists: ",rating.rating)
+    # pprint(connection.queries)
+
+    """Django Model Field Validators"""
+    # user=User.objects.first()
+    # restaurant= Restaurant.objects.first()
+    # rating=Rating.objects.create(user=user, restaurant=restaurant, rating=9)
+    # rating.full_clean() # will validate the input 
+    # rating.save()
+    # pprint(connection.queries)
+
+
+    """DELETE AND UPDATE QUERIES"""
+    restaurant=Restaurant.objects.get(id=4)
+    print(restaurant.name)
+    restaurant.name="NEW PIZZA SHOP"
+    restaurant.save(update_fields=["name"]) #update_fields attribute will only update the specified fields
     pprint(connection.queries)
