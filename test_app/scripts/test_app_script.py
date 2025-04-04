@@ -140,8 +140,41 @@ def run():
 
 
     """DELETE AND UPDATE QUERIES"""
-    restaurant=Restaurant.objects.get(id=4)
-    print(restaurant.name)
-    restaurant.name="NEW PIZZA SHOP"
-    restaurant.save(update_fields=["name"]) #update_fields attribute will only update the specified fields
-    pprint(connection.queries)
+    # restaurant=Restaurant.objects.get(id=4)
+    # print(restaurant.name)
+    # restaurant.name="NEW PIZZA SHOP"
+    # restaurant.save(update_fields=["name"]) #update_fields attribute will only update the specified fields
+    # pprint(connection.queries)
+
+    """Updating Queryset"""
+    # restaurants= Restaurant.objects.all()
+    # restaurants.update( #Updates all the records from the queryset
+    #     date_opened=timezone.now(),
+    # )
+    # print(connection.queries)
+
+    """LOOKUPS __startswith, __contains, __exact"""
+    # restaurants= Restaurant.objects.filter(name__contains="Indian")
+    # print(restaurants)
+    # restaurants.update( #Updates all the records from the queryset
+    #     date_opened=timezone.now(),
+    # )
+    # print(connection.queries)
+
+    # querysets =Restaurant.objects.all()
+    # for restaurant in querysets:
+    #     print(restaurant.name)
+
+
+    """Delete records"""
+    # restaurants=Restaurant.objects.filter(name__startswith="PIZZA")
+    # for restaurant in restaurants:
+    #     print(restaurant.pk)
+    #     print(restaurant.ratings)
+
+    # restaurant=Restaurant.objects.first()
+
+    # print(restaurant.ratings.all())
+    # restaurant.delete() #deletes corresponding foreign key objects on_delete cascade
+    #on delete set NULL will sets fk to null not deleting the fk related table
+    
