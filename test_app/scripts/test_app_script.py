@@ -4,6 +4,7 @@ from django.db import connection
 from django.contrib.auth.models import User
 from pprint import pprint
 import datetime
+from django.db.models.functions import Lower
 
 
 def run():
@@ -178,3 +179,75 @@ def run():
     # restaurant.delete() #deletes corresponding foreign key objects on_delete cascade
     #on delete set NULL will sets fk to null not deleting the fk related table
     
+
+
+    """Management commands executed"""
+    # restaurants= Restaurant.objects.all()
+    # for restaurant in restaurants:
+    #     print(f"Name: {restaurant.name}")
+    #     for rating in restaurant.ratings.all(): 
+    #             print(f"Rating: {rating}")
+
+    # print(Restaurant.objects.count())
+
+    """Filter restaurants of type chinese"""
+    # chinese_restaurant= Restaurant.objects.filter(restaurant_type="CH")
+    # restaurant=Restaurant.objects.get(name="Chinese 2") #used to retrieve only one record from the db
+    # for restaurant in chinese_restaurant:
+    #     print(restaurant.name)
+    # pprint(connection.queries)
+    # print(restaurant.restaurant_type)
+
+
+
+    # print(Restaurant.objects.filter(name__contains="xxddd").exists())
+    # pprint(connection.queries)
+
+    # print(Restaurant.objects.filter(name__startswith="C", restaurant_type="CH")) #AND operator
+    
+    # check_types=["CH","IN", "MX"]
+    # restaurant= Restaurant.objects.filter(restaurant_type__in=check_types) #in operator
+    # print(restaurant)
+    # pprint(connection.queries)
+    
+    """exclude()"""
+    
+    # check_types=["CH","IN", "MX"]
+    # restaurant= Restaurant.objects.exclude(restaurant_type__in=check_types) #where not (exclude)
+    # print(restaurant)
+    # pprint(connection.queries)
+
+    """More lookups"""
+    # restaurant= Restaurant.objects.filter(restaurant_type__lte="D") #less than or equal to
+    # print(restaurant)
+    # pprint(connection.queries)
+
+    """between (range)"""
+    # sales = Sale.objects.filter(income__range=(50,60))
+    # print([sale.income for sale in sales])
+    # sales = Sale.objects.all()
+    # for sale in sales:
+    #     print(sale.income)
+    # pprint(connection.queries)
+
+    # """order by clause"""
+    # restaurants= Restaurant.objects.order_by(Lower('name')) #order by ascending order case insensitive
+    # restaurants_reversed = restaurants.reverse() #order by descending order
+    # print(restaurants)
+    # print(restaurants_reversed)
+
+    # pprint(connection.queries)
+
+    # restaurants= Restaurant.objects.order_by('date_opened')[:5] #limit to 5 records 
+    # print(restaurants)
+
+    # restaurant= Restaurant.objects.latest('date_opened') #earliest and latest for date time field
+    # print(restaurant)
+
+    # pprint(connection.queries)
+
+    """Filter by FK"""
+    ratings=Rating.objects.filter(restaurant__name__startswith="C")
+    print(ratings)
+
+    pprint(connection.queries)
